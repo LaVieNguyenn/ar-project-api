@@ -1,6 +1,12 @@
 using ARClothingAPI.BLL.Services.AuthServices;
+using ARClothingAPI.BLL.Services.CategoryServices;
+using ARClothingAPI.BLL.Services.GoogleDriveServices;
+using ARClothingAPI.BLL.Services.ProductServices;
+using ARClothingAPI.BLL.Services.UserServices;
 using ARClothingAPI.DAL.Database.Auth;
 using ARClothingAPI.DAL.Database.Storage;
+using ARClothingAPI.DAL.Repositories.CategoryRepositories;
+using ARClothingAPI.DAL.Repositories.ProductRepositories;
 using ARClothingAPI.DAL.Repositories.UserRepositories;
 using ARClothingAPI.DAL.UnitOfWorks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -33,11 +39,19 @@ builder.Services.AddScoped<IAuthDbContext, AuthDbContext>();
 builder.Services.AddScoped<IStorageDbContext, StorageDbContext>();
 //
 
-// ========= Services ========
-
+// ========= Repositories ========
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IAuthService ,AuthService>();
+//
+
+// ========= Services ========
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IGoogleDriveService, GoogleDriveService>();
 //
 
 // =========== JWT AUTHENTICATION ===========

@@ -2,7 +2,7 @@
 
 namespace ARClothingAPI.Common.Entities
 {
-    public class Role : BaseEntity 
+    public class Role : BaseEntity
     {
         [BsonElement("name")]
         public string Name { get; set; }
