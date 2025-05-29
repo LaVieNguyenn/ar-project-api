@@ -12,4 +12,3 @@ namespace ARClothingAPI.DAL.Repositories
         Task DeleteAsync(string id);
     }
 }
-    
