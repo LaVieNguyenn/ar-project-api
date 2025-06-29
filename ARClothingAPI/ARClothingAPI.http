@@ -1,12 +1,13 @@
 @ARClothingAPI_HostAddress = http://localhost:5093
 
-POST {{ARClothingAPI_HostAddress}}/api/v1/auth/register
+POST {{ARClothingAPI_HostAddress}}/api/v1/auth/register 
 Content-Type: application/json
 
 {
   "username": "testuser",
-  "email": "testuser@example.com",
+  "email": "testuser112@example.com",
   "password": "123",
+  "birthday": "2025-04-19",
   "roleId": "661fcf75e40000551e02a001",
   "gender": 0,
   "height": 1.75,

@@ -36,7 +36,8 @@ namespace ARClothingAPI.BLL.Services.AuthServices
                 Weight = req.Weight,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
-                IsActive = true
+                IsActive = true,
+                Birthday = req.Birthday
             };
             await _uow.Users.InsertAsync(user);
             await _uow.CommitAsync();

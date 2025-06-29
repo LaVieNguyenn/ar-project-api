@@ -11,6 +11,9 @@ namespace ARClothingAPI.Common.Entities
         [BsonElement("email")]
         public string Email { get; set; } = null!;
 
+        [BsonElement("birthday")]
+        public DateOnly Birthday { get; set; }
+
         [BsonElement("passwordHash")]
         public string PasswordHash { get; set; } = null!;
 
