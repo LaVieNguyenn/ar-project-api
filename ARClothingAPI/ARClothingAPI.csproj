@@ -12,7 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ARClothingAPI.BLL\ARClothingAPI.BLL.csproj" />
+    <ProjectReference Include="..\ARClothingAPI.BLL\ARClothingAPI.BLL.csproj">
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
 
 </Project>

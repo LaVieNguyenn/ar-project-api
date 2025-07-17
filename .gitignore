@@ -399,6 +399,27 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
+# AppSettings & Secrets 
+ar-project-api/ARClothingAPI/appsettings.json
+ar-project-api/ARClothingAPI/appsettings.Development.json
+ar-project-api/ARClothingAPI/appsettings.*.json
+*.Secrets.*
+*.env
+.env.*
+*.bak
+
+credentials.json
+*.key
+*.pem
+*.pfx
+
+node_modules/
+dist/
+npm-debug.log
+
+# Docker artifacts
+docker-compose.override.yml
+
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio
 

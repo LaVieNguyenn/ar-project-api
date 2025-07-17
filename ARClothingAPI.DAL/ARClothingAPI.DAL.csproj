@@ -14,7 +14,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ARClothingAPI.Common\ARClothingAPI.Common.csproj" />
+    <ProjectReference Include="..\ARClothingAPI.Common\ARClothingAPI.Common.csproj">
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
 
 </Project>

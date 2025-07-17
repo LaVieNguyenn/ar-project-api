@@ -1,0 +1,31 @@
+# Ignore Git
+.git
+.gitignore
+
+# Build artifacts
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.pdb
+*.db
+
+# OS/filesystem
+.DS_Store
+Thumbs.db
+
+# AppSettings & Secrets (không đóng gói file config thật vào image)
+ar-project-api/ARClothingAPI/appsettings.json
+ar-project-api/ARClothingAPI/appsettings.Development.json
+ar-project-api/ARClothingAPI/appsettings.*.json
+*.Secrets.*
+*.env
+.env.*
+*.bak
+
+# Google credentials và file nhạy cảm khác
+credentials.json
+*.key
+*.pem
+*.pfx
