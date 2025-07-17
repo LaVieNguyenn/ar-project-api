@@ -28,7 +28,7 @@ namespace ARClothingAPI.Controllers.v1
         [Authorize]
         public async Task<ActionResult<ApiResponse<UserDetailDto>>> UpdateUser(string id, [FromBody] UserUpdateDto userDto)
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userId = User.FindFirst("id")?.Value;
 
             // Only allow users to update their own profile unless they are admin
             if (userId != id && !User.IsInRole("Admin"))

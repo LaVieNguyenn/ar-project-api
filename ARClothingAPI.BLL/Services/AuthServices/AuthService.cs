@@ -16,12 +16,16 @@ namespace ARClothingAPI.BLL.Services.AuthServices
         public AuthService(IUnitOfWork uow, IConfiguration config)
         {
             _uow = uow;
-            _jwtSecret = config["Jwt:Secret"]!;
-            _jwtExpiryMinutes = int.Parse(config["Jwt:ExpiryMinutes"] ?? "120");
+            _jwtSecret = config["JWT:Secret"] ?? config["Jwt:Secret"]!;
+            _jwtExpiryMinutes = int.Parse(config["JWT:ExpiryMinutes"] ?? config["Jwt:ExpiryMinutes"] ?? "120");
         }
 
         public async Task<ApiResponse<string>> RegisterAsync(UserRegisterDto req)
         {
+            if (req == null)
+                return ApiResponse<string>.ErrorResult("Invalid request data");
+            if (string.IsNullOrWhiteSpace(req.Email) || string.IsNullOrWhiteSpace(req.Password))
+                return ApiResponse<string>.ErrorResult("Email and password are required");
             if (await _uow.Users.ExistsByEmailAsync(req.Email))
                 return ApiResponse<string>.ErrorResult("Email already exists");
 

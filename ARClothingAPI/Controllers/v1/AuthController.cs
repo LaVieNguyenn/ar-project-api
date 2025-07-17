@@ -18,11 +18,19 @@ namespace ARClothingAPI.Controllers.v1
 
         [HttpPost("register")]
         public async Task<ActionResult<ApiResponse<string>>> Register([FromBody] UserRegisterDto req)
-            => await _authService.RegisterAsync(req);
+        {
+            var result = await _authService.RegisterAsync(req);
+            if(!result.Success) return BadRequest(result.Message);   
+            return Ok(result);
+        }
 
         [HttpPost("login")]
         public async Task<ActionResult<ApiResponse<string>>> Login([FromBody] UserLoginDto req)
-            => await _authService.LoginAsync(req);
+        {
+            var result = await _authService.LoginAsync(req);
+            if (!result.Success) return Unauthorized(result.Message);
+            return Ok(result);  
+        }
     }
 
 }
