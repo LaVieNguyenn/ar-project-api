@@ -26,12 +26,10 @@ namespace ARClothingAPI.BLL.Services.GoogleDriveServices
         {
             try
             {
+                var credentialsJson = _configuration["GoogleDrive:CredentialsFile"];
                 var credentialsFilePath = _configuration["GoogleDrive:CredentialsFile"];
                 var applicationName = _configuration["GoogleDrive:ApplicationName"];
                 var userEmail = _configuration["GoogleDrive:UserEmail"];
-
-                if (string.IsNullOrEmpty(credentialsFilePath))
-                    throw new InvalidOperationException("GoogleDrive:CredentialsFile configuration is missing");
 
                 if (string.IsNullOrEmpty(applicationName))
                     throw new InvalidOperationException("GoogleDrive:ApplicationName configuration is missing");
@@ -39,43 +37,39 @@ namespace ARClothingAPI.BLL.Services.GoogleDriveServices
                 if (string.IsNullOrEmpty(userEmail))
                     throw new InvalidOperationException("GoogleDrive:UserEmail configuration is missing");
 
-                // Chuyển đường dẫn tương đối thành tuyệt đối
-                string baseDir = AppDomain.CurrentDomain.BaseDirectory;
-                string absolutePath = System.IO.Path.Combine(baseDir, credentialsFilePath);
-                Console.WriteLine($"Looking for credentials file at: {absolutePath}");
+                GoogleCredential credential = null;
 
-                // Kiểm tra file credentials tồn tại
-                if (!System.IO.File.Exists(absolutePath))
+                // Ưu tiên đọc từ biến môi trường (env/config) nếu có
+                if (!string.IsNullOrWhiteSpace(credentialsJson))
                 {
-                    // Thử tìm file từ thư mục gốc của ứng dụng
-                    string rootDir = AppContext.BaseDirectory;
-                    while (rootDir != null && !System.IO.Directory.GetFiles(rootDir, "*.csproj").Any())
+                    // Đọc từ JSON chuỗi
+                    using (var stream = new System.IO.MemoryStream(System.Text.Encoding.UTF8.GetBytes(credentialsJson)))
                     {
-                        rootDir = System.IO.Directory.GetParent(rootDir)?.FullName;
+                        credential = GoogleCredential.FromStream(stream)
+                            .CreateScoped(DriveService.ScopeConstants.Drive)
+                            .CreateWithUser(userEmail);
                     }
+                }
+                else
+                {
+                    // Fallback: Đọc từ file vật lý (dev/local)
+                    if (string.IsNullOrEmpty(credentialsFilePath))
+                        throw new InvalidOperationException("GoogleDrive:CredentialsFile configuration is missing and no CredentialsJson provided");
 
-                    if (rootDir != null)
-                    {
-                        absolutePath = System.IO.Path.Combine(rootDir, credentialsFilePath);
-                        Console.WriteLine($"Trying alternative path: {absolutePath}");
-                    }
-
+                    // Convert to absolute path nếu là đường dẫn tương đối
+                    string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+                    string absolutePath = System.IO.Path.Combine(baseDir, credentialsFilePath);
                     if (!System.IO.File.Exists(absolutePath))
                         throw new FileNotFoundException($"Google credentials file not found at path: {absolutePath}");
+
+                    using (var stream = new System.IO.FileStream(absolutePath, System.IO.FileMode.Open, System.IO.FileAccess.Read))
+                    {
+                        credential = GoogleCredential.FromStream(stream)
+                            .CreateScoped(DriveService.ScopeConstants.Drive)
+                            .CreateWithUser(userEmail);
+                    }
                 }
 
-                credentialsFilePath = absolutePath;
-
-                // Đọc credentials từ file JSON (lấy từ Google Cloud Console)
-                GoogleCredential credential;
-                using (var stream = new System.IO.FileStream(credentialsFilePath, System.IO.FileMode.Open, System.IO.FileAccess.Read))
-                {
-                    credential = GoogleCredential.FromStream(stream)
-                        .CreateScoped(DriveService.ScopeConstants.Drive) // Sử dụng full Drive scope thay vì DriveFile
-                        .CreateWithUser(userEmail);
-                }
-
-                // Tạo Drive API service
                 var service = new DriveService(new BaseClientService.Initializer()
                 {
                     HttpClientInitializer = credential,
