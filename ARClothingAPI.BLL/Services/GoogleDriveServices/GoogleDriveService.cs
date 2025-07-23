@@ -83,7 +83,8 @@ namespace ARClothingAPI.BLL.Services.GoogleDriveServices
                 // Log lỗi chi tiết
                 Console.WriteLine($"Error initializing Google Drive service: {ex.Message}");
                 Console.WriteLine($"Stack trace: {ex.StackTrace}");
-                throw;
+                return null; // Trả về null hoặc có thể throw exception tùy theo yêu cầu
+                //throw;
             }
         }
 

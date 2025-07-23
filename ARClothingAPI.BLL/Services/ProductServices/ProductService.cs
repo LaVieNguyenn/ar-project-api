@@ -4,6 +4,7 @@ using ARClothingAPI.Common.Entities;
 using ARClothingAPI.Common.Response;
 using ARClothingAPI.DAL.UnitOfWorks;
 using Microsoft.AspNetCore.Http;
+using MongoDB.Driver;
 
 namespace ARClothingAPI.BLL.Services.ProductServices
 {
@@ -62,9 +63,38 @@ namespace ARClothingAPI.BLL.Services.ProductServices
             return ApiResponse<ProductDto>.SuccessResult(productResponse, "Product created successfully");
         }
 
-        public async Task<ApiResponse<IEnumerable<ProductDto>>> GetAllAsync()
+        public async Task<ApiResponse<IEnumerable<ProductDto>>> GetAllAsync(string? categoryId = null, string? productName = null)
         {
-            var products = await _uow.Products.GetAllAsync();
+            // Xây dựng filter MongoDB
+            var filterBuilder = Builders<Product>.Filter;
+            var filters = new List<FilterDefinition<Product>>();
+
+            // Lọc theo categoryId nếu được cung cấp
+            if (!string.IsNullOrEmpty(categoryId))
+            {
+                filters.Add(filterBuilder.Eq(p => p.CategoryId, categoryId));
+            }
+
+            // Lọc theo tên sản phẩm nếu được cung cấp (tìm kiếm không phân biệt chữ hoa/thường)
+            if (!string.IsNullOrEmpty(productName))
+            {
+                filters.Add(filterBuilder.Regex(p => p.Name, new MongoDB.Bson.BsonRegularExpression(productName, "i")));
+            }
+
+            // Tạo filter cuối cùng
+            FilterDefinition<Product> finalFilter;
+            if (filters.Count > 0)
+            {
+                finalFilter = filterBuilder.And(filters);
+            }
+            else
+            {
+                finalFilter = filterBuilder.Empty; // Lấy tất cả nếu không có filter
+            }
+
+            // Thực hiện truy vấn với filter
+            var products = await _uow.Products.FindAsync(finalFilter);
+            
             var productDtos = products.Select(p => new ProductDto
             {
                 Id = p.Id,

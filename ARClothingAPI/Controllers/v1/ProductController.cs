@@ -30,9 +30,9 @@ namespace ARClothingAPI.Controllers.v1
         }
 
         [HttpGet]
-        public async Task<ActionResult<ApiResponse<IEnumerable<ProductDto>>>> GetAllProducts()
+        public async Task<ActionResult<ApiResponse<IEnumerable<ProductDto>>>> GetAllProducts(string? categoryId = null, string? productName = null)
         {
-            return await _productService.GetAllAsync();
+            return await _productService.GetAllAsync(categoryId, productName);
         }
 
         [HttpGet("{id}")]

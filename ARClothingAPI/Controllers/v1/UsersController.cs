@@ -24,6 +24,17 @@ namespace ARClothingAPI.Controllers.v1
             return await _userService.GetUserByIdAsync(id);
         }
 
+        [HttpGet("me")]
+        [Authorize]
+        public async Task<ActionResult<ApiResponse<UserDetailDto>>> GetCurrentUser()
+        {
+            var userId = User.FindFirst("id")?.Value;
+            if (userId == null)
+                return Unauthorized(ApiResponse<UserDetailDto>.ErrorResult("User not authenticated"));
+
+            return await _userService.GetUserByIdAsync(userId);
+        }
+
         [HttpPut("{id}")]
         [Authorize]
         public async Task<ActionResult<ApiResponse<UserDetailDto>>> UpdateUser(string id, [FromBody] UserUpdateDto userDto)
@@ -37,11 +48,22 @@ namespace ARClothingAPI.Controllers.v1
             return await _userService.UpdateUserAsync(id, userDto);
         }
 
+        [HttpPut("me")]
+        [Authorize]
+        public async Task<ActionResult<ApiResponse<UserDetailDto>>> UpdateCurrentUser([FromBody] UserUpdateDto userDto)
+        {
+            var userId = User.FindFirst("id")?.Value;
+            if (userId == null)
+                return Unauthorized(ApiResponse<UserDetailDto>.ErrorResult("User not authenticated"));
+
+            return await _userService.UpdateUserAsync(userId, userDto);
+        }
+
         [HttpPut("change-password")]
         [Authorize]
         public async Task<ActionResult<ApiResponse<bool>>> ChangePassword([FromBody] UserChangePasswordDto passwordDto)
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userId = User.FindFirst("id")?.Value;
             if (userId == null)
                 return Unauthorized(ApiResponse<bool>.ErrorResult("User not authenticated"));
 

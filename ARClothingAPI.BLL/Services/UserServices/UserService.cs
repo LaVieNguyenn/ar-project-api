@@ -9,11 +9,20 @@ namespace ARClothingAPI.BLL.Services.UserServices
     {
         private readonly IUnitOfWork _uow;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="uow"></param>
         public UserService(IUnitOfWork uow)
         {
             _uow = uow;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<ApiResponse<UserDetailDto>> GetUserByIdAsync(string id)
         {
             var user = await _uow.Users.GetByIdAsync(id);
@@ -38,6 +47,12 @@ namespace ARClothingAPI.BLL.Services.UserServices
             return ApiResponse<UserDetailDto>.SuccessResult(userDto);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="userDto"></param>
+        /// <returns></returns>
         public async Task<ApiResponse<UserDetailDto>> UpdateUserAsync(string id, UserUpdateDto userDto)
         {
             var user = await _uow.Users.GetByIdAsync(id);
@@ -76,6 +91,12 @@ namespace ARClothingAPI.BLL.Services.UserServices
             return ApiResponse<UserDetailDto>.SuccessResult(updatedUserDto, "User updated successfully");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="passwordDto"></param>
+        /// <returns></returns>
         public async Task<ApiResponse<bool>> ChangePasswordAsync(string id, UserChangePasswordDto passwordDto)
         {
             if (passwordDto.NewPassword != passwordDto.ConfirmPassword)

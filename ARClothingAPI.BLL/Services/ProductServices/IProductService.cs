@@ -7,7 +7,7 @@ namespace ARClothingAPI.BLL.Services.ProductServices
     public interface IProductService
     {
         Task<ApiResponse<ProductDto>> CreateAsync(ProductCreateUpdateDto productDto, string userId);
-        Task<ApiResponse<IEnumerable<ProductDto>>> GetAllAsync();
+        Task<ApiResponse<IEnumerable<ProductDto>>> GetAllAsync(string? categoryId = null, string? productName = null);
         Task<ApiResponse<ProductDto>> GetByIdAsync(string id);
         Task<ApiResponse<ProductDto>> UpdateAsync(string id, ProductCreateUpdateDto productDto);
         Task<ApiResponse<bool>> DeleteAsync(string id);
