@@ -1,10 +1,12 @@
 using ARClothingAPI.BLL.Services.AuthServices;
+using ARClothingAPI.BLL.Services.CartServices;
 using ARClothingAPI.BLL.Services.CategoryServices;
 using ARClothingAPI.BLL.Services.GoogleDriveServices;
 using ARClothingAPI.BLL.Services.ProductServices;
 using ARClothingAPI.BLL.Services.UserServices;
 using ARClothingAPI.DAL.Database.Auth;
 using ARClothingAPI.DAL.Database.Storage;
+using ARClothingAPI.DAL.Repositories.CartRepositories;
 using ARClothingAPI.DAL.Repositories.CategoryRepositories;
 using ARClothingAPI.DAL.Repositories.ProductRepositories;
 using ARClothingAPI.DAL.Repositories.UserRepositories;
@@ -43,6 +45,7 @@ builder.Services.AddScoped<IStorageDbContext, StorageDbContext>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 //
 
@@ -52,6 +55,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IGoogleDriveService, GoogleDriveService>();
+builder.Services.AddScoped<ICartService, CartService>();
 //
 
 // =========== JWT AUTHENTICATION ===========

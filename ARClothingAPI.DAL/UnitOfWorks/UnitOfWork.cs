@@ -1,5 +1,6 @@
 ﻿using ARClothingAPI.DAL.Database.Auth;
 using ARClothingAPI.DAL.Database.Storage;
+using ARClothingAPI.DAL.Repositories.CartRepositories;
 using ARClothingAPI.DAL.Repositories.CategoryRepositories;
 using ARClothingAPI.DAL.Repositories.ProductRepositories;
 using ARClothingAPI.DAL.Repositories.UserRepositories;
@@ -13,6 +14,7 @@ namespace ARClothingAPI.DAL.UnitOfWorks
         private IUserRepository? _users;
         private ICategoryRepository? _categories;
         private IProductRepository? _products;
+        private ICartRepository? _carts;
 
         public UnitOfWork(IAuthDbContext authDb, IStorageDbContext storageDb)
         {
@@ -23,6 +25,7 @@ namespace ARClothingAPI.DAL.UnitOfWorks
         public IUserRepository Users => _users ??= new UserRepository(_authDb);
         public ICategoryRepository Categories => _categories ??= new CategoryRepository(_storageDb);
         public IProductRepository Products => _products ??= new ProductRepository(_storageDb);
+        public ICartRepository Carts => _carts ??= new CartRepository(_storageDb);
 
         public Task CommitAsync() => Task.CompletedTask;
         public void Dispose() { }
