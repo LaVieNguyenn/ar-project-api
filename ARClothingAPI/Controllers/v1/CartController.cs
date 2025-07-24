@@ -32,7 +32,7 @@ namespace ARClothingAPI.Controllers.v1
             return await _cartService.GetCartAsync(userId);
         }
 
-        [HttpPost("add")]
+        [HttpPost]
         public async Task<ActionResult<ApiResponse<CartDto>>> AddToCart([FromBody] AddToCartRequest request)
         {
             var userId = GetUserId();
@@ -41,7 +41,7 @@ namespace ARClothingAPI.Controllers.v1
             return await _cartService.AddToCartAsync(userId, request);
         }
 
-        [HttpPut("update")]
+        [HttpPut]
         public async Task<ActionResult<ApiResponse<CartDto>>> UpdateCartItem([FromBody] UpdateCartItemRequest request)
         {
             var userId = GetUserId();
@@ -50,7 +50,7 @@ namespace ARClothingAPI.Controllers.v1
             return await _cartService.UpdateCartItemAsync(userId, request);
         }
 
-        [HttpDelete("remove/{productId}")]
+        [HttpDelete("{productId}")]
         public async Task<ActionResult<ApiResponse<CartDto>>> RemoveCartItem(string productId)
         {
             var userId = GetUserId();
