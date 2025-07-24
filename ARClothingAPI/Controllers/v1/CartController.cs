@@ -1,13 +1,14 @@
 ﻿using ARClothingAPI.BLL.Services.CartServices;
 using ARClothingAPI.Common.DTOs;
+using ARClothingAPI.Common.Response;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace ARClothingAPI.Controllers.v1
 {
+    [Route("api/v1/[controller]")]
     [ApiController]
-    [Route("api/v1/cart")]
     [Authorize]
     public class CartController : ControllerBase
     {
@@ -18,53 +19,52 @@ namespace ARClothingAPI.Controllers.v1
             _cartService = cartService;
         }
 
-        private string GetUserId()
-        {
-            return User.FindFirstValue("id");
-        }
+        private string? GetUserId()
+            => User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
         [HttpGet]
-        [Authorize]
-        public async Task<IActionResult> GetCart()
+        public async Task<ActionResult<ApiResponse<CartDto>>> GetCart()
         {
-            var cart = await _cartService.GetCartAsync(GetUserId());
-            if (cart == null)
-                return NotFound(new { message = "Cart not found." });
-            return Ok(cart);
+            var userId = GetUserId();
+            if (userId == null)
+                return Unauthorized(ApiResponse<CartDto>.ErrorResult("User not authenticated"));
+            return await _cartService.GetCartAsync(userId);
         }
 
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> AddToCart([FromBody] AddToCartRequest request)
+        [HttpPost("add")]
+        public async Task<ActionResult<ApiResponse<CartDto>>> AddToCart([FromBody] AddToCartRequest request)
         {
-            var cart = await _cartService.AddToCartAsync(GetUserId(), request);
-            return Ok(cart);
+            var userId = GetUserId();
+            if (userId == null)
+                return Unauthorized(ApiResponse<CartDto>.ErrorResult("User not authenticated"));
+            return await _cartService.AddToCartAsync(userId, request);
         }
 
-        [HttpPut]
-        [Authorize]
-        public async Task<IActionResult> UpdateCartItem([FromBody] UpdateCartItemRequest request)
+        [HttpPut("update")]
+        public async Task<ActionResult<ApiResponse<CartDto>>> UpdateCartItem([FromBody] UpdateCartItemRequest request)
         {
-            var cart = await _cartService.UpdateCartItemAsync(GetUserId(), request);
-            if (cart == null) return NotFound(new { message = "Cart or item not found." });
-            return Ok(cart);
+            var userId = GetUserId();
+            if (userId == null)
+                return Unauthorized(ApiResponse<CartDto>.ErrorResult("User not authenticated"));
+            return await _cartService.UpdateCartItemAsync(userId, request);
         }
 
-        [HttpDelete("{productId}")]
-        [Authorize]
-        public async Task<IActionResult> RemoveCartItem(string productId)
+        [HttpDelete("remove/{productId}")]
+        public async Task<ActionResult<ApiResponse<CartDto>>> RemoveCartItem(string productId)
         {
-            var success = await _cartService.RemoveCartItemAsync(GetUserId(), productId);
-            if (!success) return NotFound(new { message = "Cart or item not found." });
-            return Ok(new { message = "Removed item from cart." });
+            var userId = GetUserId();
+            if (userId == null)
+                return Unauthorized(ApiResponse<CartDto>.ErrorResult("User not authenticated"));
+            return await _cartService.RemoveCartItemAsync(userId, productId);
         }
 
         [HttpDelete("clear")]
-        public async Task<IActionResult> ClearCart()
+        public async Task<ActionResult<ApiResponse<bool>>> ClearCart()
         {
-            var success = await _cartService.ClearCartAsync(GetUserId());
-            if (!success) return NotFound(new { message = "Cart not found." });
-            return Ok(new { message = "Cart cleared." });
+            var userId = GetUserId();
+            if (userId == null)
+                return Unauthorized(ApiResponse<bool>.ErrorResult("User not authenticated"));
+            return await _cartService.ClearCartAsync(userId);
         }
     }
 }
