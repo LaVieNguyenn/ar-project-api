@@ -20,7 +20,8 @@ namespace ARClothingAPI.Controllers.v1
         }
 
         private string? GetUserId()
-            => User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            => User.FindFirst("id")?.Value;
+
 
         [HttpGet]
         public async Task<ActionResult<ApiResponse<CartDto>>> GetCart()
