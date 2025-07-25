@@ -81,6 +81,9 @@ namespace ARClothingAPI.BLL.Services.ProductServices
                 filters.Add(filterBuilder.Regex(p => p.Name, new MongoDB.Bson.BsonRegularExpression(productName, "i")));
             }
 
+            // chỉ lấy ra những sản phẩm đang hoạt động
+            filters.Add(filterBuilder.Eq(p => p.IsActive, true));
+
             // Tạo filter cuối cùng
             FilterDefinition<Product> finalFilter;
             if (filters.Count > 0)
