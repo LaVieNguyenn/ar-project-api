@@ -1,7 +1,10 @@
-using ARClothingAPI.Common.DTOs;
+﻿using ARClothingAPI.Common.DTOs;
+using ARClothingAPI.Common.Entities;
 using ARClothingAPI.Common.Helpers;
 using ARClothingAPI.Common.Response;
 using ARClothingAPI.DAL.UnitOfWorks;
+using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace ARClothingAPI.BLL.Services.UserServices
 {
@@ -41,7 +44,11 @@ namespace ARClothingAPI.BLL.Services.UserServices
                 Height = user.Height,
                 Weight = user.Weight,
                 CreatedAt = user.CreatedAt,
-                UpdatedAt = user.UpdatedAt
+                UpdatedAt = user.UpdatedAt,
+                PlanId = user.PlanId,
+                PlanEnd = user.PlanEnd,
+                PlanStart = user.PlanStart,
+                VirtualBalance = user.VirtualBalance ?? 0
             };
 
             return ApiResponse<UserDetailDto>.SuccessResult(userDto);

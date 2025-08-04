@@ -13,5 +13,9 @@ namespace ARClothingAPI.Common.DTOs
         public double Weight { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+        public decimal VirtualBalance { get; set; }
+        public string? PlanId { get; set; }
+        public DateTime? PlanStart { get; set; }
+        public DateTime? PlanEnd { get; set; }
     }
 }

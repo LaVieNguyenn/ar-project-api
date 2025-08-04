@@ -1,6 +1,8 @@
+using ARClothingAPI.BLL.Services.TransactionServices;
 using ARClothingAPI.BLL.Services.UserServices;
 using ARClothingAPI.Common.DTOs;
 using ARClothingAPI.Common.Response;
+using ARClothingAPI.DAL.Repositories.TransactionRepositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -12,10 +14,12 @@ namespace ARClothingAPI.Controllers.v1
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly ITransactionService _transactionService;
 
-        public UsersController(IUserService userService)
+        public UsersController(IUserService userService, ITransactionService transactionService)
         {
             _userService = userService;
+            _transactionService = transactionService;
         }
 
         [HttpGet("{id}")]
@@ -68,6 +72,14 @@ namespace ARClothingAPI.Controllers.v1
                 return Unauthorized(ApiResponse<bool>.ErrorResult("User not authenticated"));
 
             return await _userService.ChangePasswordAsync(userId, passwordDto);
+        }
+
+        [HttpGet("transactionHistory")]
+        [Authorize]
+        public Task<ApiResponse<IEnumerable<TransactionDto>>> GetMyTransactions()
+        {
+            var userId = User.FindFirstValue("id");
+            return _transactionService.GetAllByUserIdAsync(userId!);
         }
     }
 }

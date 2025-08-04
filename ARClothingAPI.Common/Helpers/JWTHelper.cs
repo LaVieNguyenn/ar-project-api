@@ -1,4 +1,5 @@
 ﻿using ARClothingAPI.Common.Entities;
+using System.Security.Claims;
 
 namespace ARClothingAPI.Common.Helpers
 {
@@ -14,7 +15,7 @@ namespace ARClothingAPI.Common.Helpers
             new("id", user.Id),
             new("email", user.Email),
             new("username", user.Username),
-            new("roleId", user.RoleId)
+            new(ClaimTypes.Role, user.RoleId)
         };
 
             var tokenDescriptor = new Microsoft.IdentityModel.Tokens.SecurityTokenDescriptor

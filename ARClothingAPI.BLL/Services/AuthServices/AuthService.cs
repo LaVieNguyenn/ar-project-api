@@ -41,7 +41,11 @@ namespace ARClothingAPI.BLL.Services.AuthServices
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
                 IsActive = true,
-                Birthday = req.Birthday
+                Birthday = req.Birthday,
+                VirtualBalance = 0,
+                PlanId = "",
+                PlanEnd = DateTime.UtcNow,
+                PlanStart = DateTime.UtcNow,
             };
             await _uow.Users.InsertAsync(user);
             await _uow.CommitAsync();

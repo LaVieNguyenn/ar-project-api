@@ -15,6 +15,8 @@
             public const string Products = "products";
             public const string Categories = "categories";
             public const string Carts = "carts";
+            public const string Transactions = "transactions";
+            public const string Plans = "plans";
         }
     }
 }

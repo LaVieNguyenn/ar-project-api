@@ -35,5 +35,18 @@ namespace ARClothingAPI.Common.Entities
 
         [BsonElement("weight")]
         public double Weight { get; set; }
+
+        [BsonElement("virtualBalance")]
+        public decimal? VirtualBalance { get; set; } = 0m;
+
+        [BsonElement("planId")]
+        //[BsonRepresentation(BsonType.ObjectId)]
+        public string? PlanId { get; set; }
+
+        [BsonElement("planStart")]
+        public DateTime? PlanStart { get; set; }
+
+        [BsonElement("planEnd")]
+        public DateTime? PlanEnd { get; set; }
     }
 }
