@@ -124,5 +124,32 @@ namespace ARClothingAPI.BLL.Services.UserServices
 
             return ApiResponse<bool>.SuccessResult(true, "Password changed successfully");
         }
+
+        public async Task<ApiResponse<List<UserDetailDto>>> GetAllUser()
+        {
+            var users = _uow.Users.GetAllAsync();
+            if (users == null) return ApiResponse<List<UserDetailDto>>.ErrorResult("Something went wrong!");
+            if (users.Result.Count() == 0) return ApiResponse<List<UserDetailDto>>.SuccessResult(null, "Empty");
+
+            var list = users.Result.Select(u => new UserDetailDto
+            {
+                Id = u.Id,
+                AvatarUrl = u.AvatarUrl,
+                Email = u.Email,
+                Gender = u.Gender,  
+                Height = u.Height,
+                IsActive = u.IsActive,
+                CreatedAt = u.CreatedAt,
+                PlanEnd = u.PlanEnd,    
+                PlanId = u.PlanId,
+                PlanStart = u.PlanStart,
+                RoleId = u.RoleId,
+                UpdatedAt = u.UpdatedAt,
+                Username = u.Username,
+                VirtualBalance  = u.VirtualBalance ?? 0m, 
+                Weight = u.Weight
+            }).ToList();
+            return ApiResponse<List<UserDetailDto>>.SuccessResult(list, "Retrieve data successfully");
+        }
     }
 }

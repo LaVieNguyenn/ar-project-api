@@ -8,5 +8,6 @@ namespace ARClothingAPI.BLL.Services.UserServices
         Task<ApiResponse<UserDetailDto>> GetUserByIdAsync(string id);
         Task<ApiResponse<UserDetailDto>> UpdateUserAsync(string id, UserUpdateDto userDto);
         Task<ApiResponse<bool>> ChangePasswordAsync(string id, UserChangePasswordDto passwordDto);
+        Task<ApiResponse<List<UserDetailDto>>> GetAllUser();
     }
 }

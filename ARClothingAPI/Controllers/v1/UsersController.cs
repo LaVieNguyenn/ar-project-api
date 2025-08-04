@@ -81,5 +81,12 @@ namespace ARClothingAPI.Controllers.v1
             var userId = User.FindFirstValue("id");
             return _transactionService.GetAllByUserIdAsync(userId!);
         }
+
+        [HttpGet]
+        [Authorize]
+        public Task<ApiResponse<List<UserDetailDto>>> GetAllUser()
+        {
+            return  _userService.GetAllUser();
+        }
     }
 }
