@@ -32,7 +32,7 @@ namespace ARClothingAPI.BLL.Services.PlanPaymentServices
             if (adminBank == null)
                 return ApiResponse<PlanPaymentQrResponseDto>.ErrorResult("Không tìm thấy tài khoản nhận tiền!");
 
-            var amount = plan.Price * (1 - plan.DiscountPercent / 100);
+            var amount = (int)Math.Round(plan.Price * (1 - plan.DiscountPercent / 100));
 
             // Generate unique content để admin tracking
             var paymentContent = $"PLAN {user.Id} {plan.Id} {DateTime.UtcNow:yyyyMMddHHmmss}";
