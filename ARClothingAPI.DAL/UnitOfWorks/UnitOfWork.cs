@@ -1,5 +1,6 @@
 ﻿using ARClothingAPI.DAL.Database.Auth;
 using ARClothingAPI.DAL.Database.Storage;
+using ARClothingAPI.DAL.Repositories.AdminBankAccountRepositories;
 using ARClothingAPI.DAL.Repositories.CartRepositories;
 using ARClothingAPI.DAL.Repositories.CategoryRepositories;
 using ARClothingAPI.DAL.Repositories.PlanRepositories;
@@ -19,6 +20,7 @@ namespace ARClothingAPI.DAL.UnitOfWorks
         private ICartRepository? _carts;
         private ITransactionRepository? _transactions;
         private IPlanRepository? _plans;
+        private IAdminBankAccountRepo? _adminBankAccounts;
 
         public UnitOfWork(IAuthDbContext authDb, IStorageDbContext storageDb)
         {
@@ -32,6 +34,7 @@ namespace ARClothingAPI.DAL.UnitOfWorks
         public ICartRepository Carts => _carts ??= new CartRepository(_storageDb);
         public ITransactionRepository Transactions => _transactions ??= new TransactionRepository(_storageDb);
         public IPlanRepository Plans => _plans ??= new PlanRepository(_storageDb);
+        public IAdminBankAccountRepo AdminBankAccounts => _adminBankAccounts ??= new AdminBankAccountRepo(_authDb);
 
         public Task CommitAsync() => Task.CompletedTask;
         public void Dispose() { }

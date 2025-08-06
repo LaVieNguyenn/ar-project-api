@@ -17,6 +17,7 @@
             public const string Carts = "carts";
             public const string Transactions = "transactions";
             public const string Plans = "plans";
+            public const string AdminBankAccount = "bankAccount";
         }
     }
 }

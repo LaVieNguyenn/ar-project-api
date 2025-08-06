@@ -6,15 +6,13 @@ using System.Threading.Tasks;
 
 namespace ARClothingAPI.Common.DTOs
 {
-    public class TransactionUpdateDto
+    public class EnrollPlanRequestDto
     {
+        public string UserId { get; set; } = null!;
+        public string PlanId { get; set; } = null!;
         public decimal Amount { get; set; }
-        public string Note { get; set; } = null!;
-        public string Method { get; set; } = null!;          // "bank_transfer"
-        public string? PlanId { get; set; }
         public string PaymentContent { get; set; } = null!;
         public string? BankName { get; set; }
         public string? BankRefNumber { get; set; }
     }
-
 }

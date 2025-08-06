@@ -1,4 +1,5 @@
-﻿using ARClothingAPI.DAL.Repositories.CartRepositories;
+﻿using ARClothingAPI.DAL.Repositories.AdminBankAccountRepositories;
+using ARClothingAPI.DAL.Repositories.CartRepositories;
 using ARClothingAPI.DAL.Repositories.CategoryRepositories;
 using ARClothingAPI.DAL.Repositories.PlanRepositories;
 using ARClothingAPI.DAL.Repositories.ProductRepositories;
@@ -15,6 +16,7 @@ namespace ARClothingAPI.DAL.UnitOfWorks
         ICartRepository Carts { get; }
         ITransactionRepository Transactions { get; }
         IPlanRepository Plans { get; }
+        IAdminBankAccountRepo AdminBankAccounts { get; }
         Task CommitAsync();
     }
 }

@@ -2,6 +2,7 @@ using ARClothingAPI.BLL.Services.AuthServices;
 using ARClothingAPI.BLL.Services.CartServices;
 using ARClothingAPI.BLL.Services.CategoryServices;
 using ARClothingAPI.BLL.Services.GoogleDriveServices;
+using ARClothingAPI.BLL.Services.PlanPaymentServices;
 using ARClothingAPI.BLL.Services.PlanServices;
 using ARClothingAPI.BLL.Services.ProductServices;
 using ARClothingAPI.BLL.Services.TransactionServices;
@@ -52,6 +53,7 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<IPlanRepository, PlanRepository>();
+builder.Services.AddScoped<IPlanPaymentService, PlanPaymentService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 //
 
@@ -64,6 +66,7 @@ builder.Services.AddScoped<IGoogleDriveService, GoogleDriveService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<IPlanService, PlanService>();
+builder.Services.AddScoped<IPlanPaymentService, PlanPaymentService>();
 
 //
 

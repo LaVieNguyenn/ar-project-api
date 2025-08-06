@@ -17,7 +17,7 @@ namespace ARClothingAPI.Controllers.v1
         public PlanController(IPlanService service) => _service = service;
 
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public Task<ApiResponse<IEnumerable<PlanDto>>> GetAll() => _service.GetAllAsync();
 
         [HttpGet("{id}")]
