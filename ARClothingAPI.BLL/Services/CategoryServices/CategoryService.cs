@@ -28,6 +28,8 @@ namespace ARClothingAPI.BLL.Services.CategoryServices
             {
                 Name = categoryDto.Name,
                 Description = categoryDto.Description,
+                ImageUrl = categoryDto.ImageUrl,
+                Order = categoryDto.Order,
                 ParentCategoryId = categoryDto.ParentCategoryId,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow
@@ -41,6 +43,8 @@ namespace ARClothingAPI.BLL.Services.CategoryServices
                 Id = category.Id,
                 Name = category.Name,
                 Description = category.Description,
+                ImageUrl = category.ImageUrl,
+                Order = category.Order,
                 ParentCategoryId = category.ParentCategoryId,
                 CreatedAt = category.CreatedAt,
                 UpdatedAt = category.UpdatedAt
@@ -57,10 +61,12 @@ namespace ARClothingAPI.BLL.Services.CategoryServices
                 Id = c.Id,
                 Name = c.Name,
                 Description = c.Description,
+                ImageUrl = c.ImageUrl,
+                Order = c.Order,
                 ParentCategoryId = c.ParentCategoryId,
                 CreatedAt = c.CreatedAt,
                 UpdatedAt = c.UpdatedAt
-            });
+            }).OrderBy(x => x.Order);
 
             return ApiResponse<IEnumerable<CategoryDto>>.SuccessResult(categoryDtos);
         }
@@ -76,6 +82,8 @@ namespace ARClothingAPI.BLL.Services.CategoryServices
                 Id = category.Id,
                 Name = category.Name,
                 Description = category.Description,
+                ImageUrl = category.ImageUrl,
+                Order = category.Order,
                 ParentCategoryId = category.ParentCategoryId,
                 CreatedAt = category.CreatedAt,
                 UpdatedAt = category.UpdatedAt
@@ -99,6 +107,8 @@ namespace ARClothingAPI.BLL.Services.CategoryServices
 
             category.Name = categoryDto.Name;
             category.Description = categoryDto.Description;
+            category.ImageUrl = categoryDto.ImageUrl;
+            category.Order = categoryDto.Order;
             category.ParentCategoryId = categoryDto.ParentCategoryId;
             category.UpdatedAt = DateTime.UtcNow;
 
@@ -110,6 +120,8 @@ namespace ARClothingAPI.BLL.Services.CategoryServices
                 Id = category.Id,
                 Name = category.Name,
                 Description = category.Description,
+                ImageUrl = category.ImageUrl,
+                Order = category.Order,
                 ParentCategoryId = category.ParentCategoryId,
                 CreatedAt = category.CreatedAt,
                 UpdatedAt = category.UpdatedAt
